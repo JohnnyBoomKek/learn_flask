@@ -1,0 +1,11 @@
+from flask import Flask
+app = Flask(__name__)
+
+@app.route('/')
+def index():
+    return '<h1>HelloWorld</h1>'
+app.add_url_rule('/', 'index', index)
+
+@app.route('/users/<name>')
+def user(name):
+    return f'hello, {name}'
