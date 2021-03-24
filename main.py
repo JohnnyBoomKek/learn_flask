@@ -1,10 +1,10 @@
-from flask import Flask
-from flask import request, Flask, render_template
+from flask import Flask, render_template, request, redirect, session, url_for
 from flask.helpers import make_response
-from flask_bootstrap import Bootstrap 
+from flask_bootstrap import Bootstrap
 from flask_wtf import FlaskForm
 from wtforms import StringField, SubmitField
 from wtforms.validators import DataRequired
+
 
 class NameForm(FlaskForm):
     name = StringField('What is your name?', validators=[DataRequired()])
@@ -32,6 +32,13 @@ def cookie():
     response.set_cookie('answer', '42')
     return response
 
-
+@app.route('/session', methods=['GET', 'POST'])
+def user_session():
+    form = NameForm()
+    if form.validate_on_submit():
+        session['name'] = form.name.data
+        print(type(session))
+        return redirect(url_for('user_session'))
+    return render_template('session.html', form=form, name=session.get('name'))
 if __name__ == '__main__':
     app.run()
