@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, redirect, session, url_for
+from flask import Flask, render_template, request, redirect, session, url_for, flash
 from flask.helpers import make_response
 from flask_bootstrap import Bootstrap
 from flask_wtf import FlaskForm
@@ -36,8 +36,10 @@ def cookie():
 def user_session():
     form = NameForm()
     if form.validate_on_submit():
+        old_name = session.get('name')
+        if old_name is not None and old_name != form.name.data:
+            flash('looks like you changed your name!')
         session['name'] = form.name.data
-        print(type(session))
         return redirect(url_for('user_session'))
     return render_template('session.html', form=form, name=session.get('name'))
 if __name__ == '__main__':

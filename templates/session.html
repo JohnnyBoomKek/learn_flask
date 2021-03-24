@@ -6,3 +6,8 @@
 </form>
 
 <h1> Hello {% if name %} {{ name }} {% else %} stranger {% endif %}</h1>
+
+
+{% for message in  get_flashed_messages() %}
+{{ message }}
+{% endfor %}
