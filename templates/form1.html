@@ -1,0 +1,8 @@
+{% import "bootstrap/wtf.html" as wtf %}
+<form method='POST'>
+    {{ wtf.quick_form(form) }}
+</form>
+hello
+{% if name %}
+{{ name }}
+{% endif %}

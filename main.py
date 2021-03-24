@@ -18,9 +18,20 @@ bootstrap = Bootstrap(app)
 def index():
     user_agent = request.headers.get('User-Agent')
     return render_template('index.html')
-
+@app.route('/form1', methods=['GET', 'POST'])
+def form_one():
+    name = None
+    form = NameForm()
+    if form.validate_on_submit():
+        name = form.name.data
+        form.name.data = ''
+    return render_template('form1.html', form=form, name=name)
 @app.route('/cookie')
 def cookie():
     response = make_response('<h1> this document carries a cookie</h1>')
     response.set_cookie('answer', '42')
     return response
+
+
+if __name__ == '__main__':
+    app.run()
